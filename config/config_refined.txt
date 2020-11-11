@@ -1,0 +1,24 @@
+[DEFAULT]
+num_points = 4096
+
+dataset_folder = /media/sf_Datasets/PointNetVLAD
+
+[TRAIN]
+num_workers = 4
+batch_size = 16
+batch_size_limit = 256
+batch_expansion_rate = 1.4
+batch_expansion_th = 0.7
+
+lr = 1e-3
+epochs = 80
+scheduler_milestones = 60
+
+aug_mode = 1
+weight_decay = 1e-3
+
+loss = BatchHardTripletMarginLoss
+normalize_embeddings = False
+margin = 0.2
+
+train_file = training_queries_refine.pickle

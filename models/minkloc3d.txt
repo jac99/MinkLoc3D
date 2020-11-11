@@ -1,0 +1,9 @@
+# MinkLoc3D model
+[MODEL]
+model = MinkFPN_GeM
+mink_quantization_size = 0.01
+planes = 32,64,64
+layers = 1,1,1
+num_top_down = 1
+conv0_kernel_size = 5
+feature_size = 256
