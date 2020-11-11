@@ -37,6 +37,11 @@ The following Python packages are required:
 * bitarray
 * tqdm
 
+Modify the `PYTHONPATH` environment variable to include absolute path to the project root folder: 
+```export PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:/home/.../MinkLoc3D
+```
+
 ### Datasets
 
 **MinkLoc3D** is trained using a subset of Oxford RobotCar and In-house (U.S., R.A., B.D.) datasets introduced in
@@ -76,10 +81,10 @@ To train the network, run:
 cd training
 
 # To train minkloc3d model on the Baseline Dataset
-python train_detector.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt
+python train_detector.py --config ../config/config_baseline.txt --model_config ../models/minkloc3d.txt
 
 # To train minkloc3d model on the Refined Dataset
-python train_detector.py --config ../config_refined.txt --model_config ../models/minkloc3d.txt
+python train_detector.py --config ../config/config_refined.txt --model_config ../models/minkloc3d.txt
 ```
 
 ### Pre-trained Models
