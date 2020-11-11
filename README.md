@@ -64,35 +64,42 @@ python generate_test_sets.py
 ```
 
 ### Training
-To train **MinkLoc3D** detector, download and decompress the dataset, edit `config.txt` and set paths to downloaded datasets.
-Then, run:
+To train **MinkLoc3D** network, download and decompress the dataset and generate training pickles as described above.
+Edit the configuration file (`config_baseline.txt` or `config_refined.txt`). 
+Set `dataset_folder` parameter to the dataset root folder.
+Modify `batch_size_limit` parameter depending on available GPU memory. 
+Default limit (=256) requires at least 11GB of GPU RAM.
+
+To train the network, run:
 
 ```train baseline
-python train_detector.py --config config.txt
-```
+cd training
 
-```train refined
-python train_detector.py --config config.txt
+# To train minkloc3d model on the baseline dataset
+python train_detector.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt
+
+# To train minkloc3d model on the refined dataset
+python train_detector.py --config ../config_refined.txt --model_config ../models/minkloc3d.txt
 ```
 
 ### Pre-trained Models
 
-You can download pretrained models here:
-
-- [My awesome model](https://drive.google.com/mymodel.pth) trained on ImageNet using parameters x,y,z. 
-
+Pretrained models are available in `weights` directory
+- `minkloc3d_baseline.pth` trained on the Baseline Dataset (training subset of Oxford RobotCar). 
+- `minkloc3d_refined.pth` trained on the Refined Dataset (training subset of Oxford RobotCar and In-house Dataset). 
 
 ### Evaluation
-The pre-trained model `model_20201019_1416_final.pth` is saved in `models/` folder.
-The model was trained with ISSIA-CNR dataset (cameras 1,2,3,4) and SoccerPlayerDetection dataset (set 1).
-To run the trained model use the following command:
+
+To evaluate pretrained models run the following commands:
 
 ```eval baseline
-python eval.py --model-file mymodel.pth --benchmark imagenet
-```
+cf eval
 
-```eval refined
-python eval.py --model-file mymodel.pth --benchmark imagenet
+# To evaluate the model trained on the Baseline Dataset
+python evaluate.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_baseline.pth
+
+# To evaluate the model trained on the Refined Dataset
+python evaluate.py --config ../config_refined.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_refined.pth
 ```
 
 ## Results
@@ -119,9 +126,6 @@ python eval.py --model-file mymodel.pth --benchmark imagenet
 | DAGC  |     87.8     |   94.3 | 93.4 | 88.5 |
 | LPD-Net  |     94.9     |   98.9 | 96.4 | 94.4 |
 | **MinkLoc3D (our)**  |     **98.5**     |   **99.7** | **99.3** | **96.7** |
-
-
-
 
 ### License
 Our code is released under the MIT License (see LICENSE file for details).
