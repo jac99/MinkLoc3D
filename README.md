@@ -45,17 +45,17 @@ For dataset description see PointNetVLAD paper or github repository ([link](http
 You can download training and evaluation datasets from 
 [here](https://drive.google.com/open?id=1rflmyfZ1v9cGGH0RL4qXRrKhg-8A-U9q) 
 ([alternative link](https://drive.google.com/file/d/1-1HA9Etw2PpZ8zHd3cjrfiZa8xzbp41J/view?usp=sharing)). 
-Extract the folder on the same directory as the project code. Thus, on that directory you must have two folders: 1) benchmark_datasets and 2) MinkLoc3D
+Extract the folder in the same directory as the project code. Thus, in that directory you must have two folders: 1) benchmark_datasets and 2) MinkLoc3D
 
-Before the network training or evaluation, run the below code to generate pickles with positive and negative point clouds for each anchor. 
+Before the network training or evaluation, run the below code to generate pickles with positive and negative point clouds for each anchor point cloud. 
  
 ```generate pickles
 cd generating_queries/ 
 
-# Generate training tuples for 'baseline' scenario
+# Generate training tuples for the Baseline Dataset
 python generate_training_tuples_baseline.py
 
-# Generate training tuples for 'refined' scenario
+# Generate training tuples for the Refined Dataset
 python generate_training_tuples_refine.py
 
 # Generate evaluation tuples
@@ -74,10 +74,10 @@ To train the network, run:
 ```train baseline
 cd training
 
-# To train minkloc3d model on the baseline dataset
+# To train minkloc3d model on the Baseline Dataset
 python train_detector.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt
 
-# To train minkloc3d model on the refined dataset
+# To train minkloc3d model on the Refined Dataset
 python train_detector.py --config ../config_refined.txt --model_config ../models/minkloc3d.txt
 ```
 
@@ -92,7 +92,7 @@ Pretrained models are available in `weights` directory
 To evaluate pretrained models run the following commands:
 
 ```eval baseline
-cf eval
+cd eval
 
 # To evaluate the model trained on the Baseline Dataset
 python evaluate.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_baseline.pth
