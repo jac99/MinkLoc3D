@@ -101,10 +101,10 @@ To evaluate pretrained models run the following commands:
 cd eval
 
 # To evaluate the model trained on the Baseline Dataset
-python evaluate.py --config ../config_baseline.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_baseline.pth
+python evaluate.py --config ../config/config_baseline.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_baseline.pth
 
 # To evaluate the model trained on the Refined Dataset
-python evaluate.py --config ../config_refined.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_refined.pth
+python evaluate.py --config ../config/config_refined.txt --model_config ../models/minkloc3d.txt --weights ../weights/minkloc3d_refined.pth
 ```
 
 ## Results
