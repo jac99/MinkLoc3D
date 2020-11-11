@@ -10,13 +10,13 @@ import numpy as np
 import math
 from scipy.linalg import expm, norm
 import random
-import open3d as o3d
 import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 import psutil
 from bitarray import bitarray
 import tqdm
+#import open3d as o3d
 
 DEBUG = False
 
@@ -365,6 +365,7 @@ if __name__ == '__main__':
     dataset_path = '/media/sf_Datasets/PointNetVLAD'
     query_filename = 'test_queries_baseline.pickle'
 
+"""
     aug_mode = 15
     transform = TrainTransform(aug_mode=aug_mode)
     set_transform = TrainSetTransform(aug_mode=aug_mode)
@@ -381,3 +382,4 @@ if __name__ == '__main__':
         pcd.points = o3d.utility.Vector3dVector(e)
 
         o3d.visualization.draw_geometries([pcd])
+"""

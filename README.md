@@ -27,15 +27,14 @@ If you find this work useful, please consider citing:
 
 ### Environment and Dependencies
 Code was tested using Python 3.8 with PyTorch 1.6 and MinkowskiEngine 0.4.3 on Ubuntu 18.04 with CUDA 10.2.
-Other dependencies include:
+
+The following Python packages are required:
 * Python 1.6
 * MinkowskiEngine 0.4.3
-
-To install requirements:
-
-```setup
-pip install -r requirements.txt
-```
+* pytorch_metric_learning
+* tensorboard
+* bitarray
+* tqdm
 
 ### Datasets
 
