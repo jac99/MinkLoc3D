@@ -45,8 +45,12 @@ export PYTHONPATH=$PYTHONPATH:/home/.../MinkLoc3D
 
 ### Datasets
 
-**MinkLoc3D** is trained using a subset of Oxford RobotCar and In-house (U.S., R.A., B.D.) datasets introduced in
+**MinkLoc3D** is trained on a subset of Oxford RobotCar and In-house (U.S., R.A., B.D.) datasets introduced in
 *PointNetVLAD: Deep Point Cloud Based Retrieval for Large-Scale Place Recognition* paper ([link](https://arxiv.org/pdf/1804.03492)).
+There are two training datasets:
+- Baseline Dataset - consists of a training subset of Oxford RobotCar
+- Refined Dataset - consists of training subset of Oxford RobotCar and training subset of In-house
+
 For dataset description see PointNetVLAD paper or github repository ([link](https://github.com/mikacuy/pointnetvlad)).
 
 You can download training and evaluation datasets from 
@@ -91,8 +95,8 @@ python train.py --config ../config/config_refined.txt --model_config ../models/m
 ### Pre-trained Models
 
 Pretrained models are available in `weights` directory
-- `minkloc3d_baseline.pth` trained on the Baseline Dataset (training subset of Oxford RobotCar). 
-- `minkloc3d_refined.pth` trained on the Refined Dataset (training subset of Oxford RobotCar and In-house Dataset). 
+- `minkloc3d_baseline.pth` trained on the Baseline Dataset 
+- `minkloc3d_refined.pth` trained on the Refined Dataset 
 
 ### Evaluation
 
