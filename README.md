@@ -2,6 +2,8 @@
 
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) WACV 2021
 
+[Supplementary material](media/MinkLoc3D_Supplementary_Material.pdf)
+
 [Jacek Komorowski](mailto:jacek.komorowski@pw.edu.pl)
 
 Warsaw University of Technology
