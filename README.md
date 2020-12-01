@@ -138,7 +138,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | PCAN  |     86.4     |   94.1 | 92.3 | 87.0 |
 | DAGC  |     87.8     |   94.3 | 93.4 | 88.5 |
 | LPD-Net  |     94.9     |   98.9 | 96.4 | 94.4 |
-| SOE-Net  |     96.4   |   97.7 | 95.9 | 92.6 |
+| SOE-Net  |     96.4   |   **97.7** | 95.9 | 92.6 |
 | **MinkLoc3D (our)**  |     **98.5**     |   **99.7** | **99.3** | **96.7** |
 
 ### License
