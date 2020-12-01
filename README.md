@@ -126,7 +126,8 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | PCAN  |     83.8     |   79.1 | 71.2 | 66.8 |
 | DAGC  |     87.5     |   83.5 | 75.7 | 71.2 |
 | LPD-Net  |     94.9   |   **96.0** | 90.5 | **89.1** |
-| **MinkLoc3D (our)**  |     **97.9**     |   95.0 | **91.2** | 88.5 |
+| SOE-Net  |     96.4   |   93.2 | **91.5** | 88.5 |
+| **MinkLoc3D (our)**  |     **97.9**     |   95.0 | 91.2 | 88.5 |
 
 
 ### Trained on Refined Dataset
@@ -137,6 +138,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | PCAN  |     86.4     |   94.1 | 92.3 | 87.0 |
 | DAGC  |     87.8     |   94.3 | 93.4 | 88.5 |
 | LPD-Net  |     94.9     |   98.9 | 96.4 | 94.4 |
+| SOE-Net  |     96.4   |   97.7 | 95.9 | 92.6 |
 | **MinkLoc3D (our)**  |     **98.5**     |   **99.7** | **99.3** | **96.7** |
 
 ### License
