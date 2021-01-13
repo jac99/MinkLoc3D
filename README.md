@@ -20,11 +20,11 @@ The proposed method has a simple and efficient architecture. Evaluation on stand
 ### Citation
 If you find this work useful, please consider citing:
 
-    @inproceedings{kom21ml,
-    title={MinkLoc3D: Point Cloud Based Large-Scale Place Recognition},
-    author={Jacek Komorowski},
-    booktitle={The IEEE Winter Conference on Applications of Computer Vision},
-    year={2021}
+    @inproceedings{komorowski2020minkloc3d,
+        title={MinkLoc3D: Point Cloud Based Large-Scale Place Recognition},
+        author={Komorowski, Jacek},
+        booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision},
+        pages={1790--1799}
     }
 
 ### Environment and Dependencies
