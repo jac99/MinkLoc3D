@@ -127,7 +127,8 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | PointNetVLAD  |     80.3     |   72.6 | 60.3 | 65.3 |
 | PCAN  |     83.8     |   79.1 | 71.2 | 66.8 |
 | DAGC  |     87.5     |   83.5 | 75.7 | 71.2 |
-| LPD-Net  |     94.9   |   **96.0** | 90.5 | **89.1** |
+| LPD-Net  |     94.9   |   96.0 | 90.5 | **89.1** |
+| EPC-Net  |     94.7   |   **96.5** | 88.6 | 84.9 |
 | SOE-Net  |     96.4   |   93.2 | **91.5** | 88.5 |
 | **MinkLoc3D (our)**  |     **97.9**     |   95.0 | 91.2 | 88.5 |
 
