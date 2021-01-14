@@ -16,7 +16,6 @@ import torchvision.transforms as transforms
 import psutil
 from bitarray import bitarray
 import tqdm
-#import open3d as o3d
 
 DEBUG = False
 
@@ -106,25 +105,6 @@ class OxfordDataset(Dataset):
         clouds = torch.stack(clouds, dim=0)
         return clouds
 
-    def get_set(self, anchor_ndx, positives_ndx, negatives_ndx):
-        # Prepare a training set consisting of an anchor, positives and negatives
-        # Each element is transformed using an item transform, then set transform is applied on all elements
-        # Returns a (1+num_pos+num_neg, n_points, 3) tensor or None for broken clouds
-        anchor, _ = self[anchor_ndx]
-        if len(anchor) == 0:
-            return None, None
-
-        anchor = anchor.unsqueeze(dim=0)  # Make it (1, num_points, 3) tensor
-        positives = self.get_items(positives_ndx)
-        negatives = self.get_items(negatives_ndx)
-        set = torch.cat([anchor, positives, negatives], dim=0)
-
-        if self.set_transform is not None:
-            set = self.set_transform(set)
-
-        set_ndx = [anchor_ndx] + positives_ndx + negatives_ndx     # Indexes of elements in the set
-        return set, set_ndx
-
     def get_positives_ndx(self, ndx):
         # Get list of indexes of similar clouds
         return self.queries[ndx]['positives'].search(bitarray([True]))
@@ -144,28 +124,17 @@ class OxfordDataset(Dataset):
         pc = torch.tensor(pc, dtype=torch.float)
         return pc
 
-    def get_positives_mask(self, labels):
-        # Compute n_elem x n_elem boolean mask for positive examples
-        return [True for e in labels]
-
-    def get_negatives_mask(self, labels):
-        # Compute n_elem x n_elem boolean mask for negative examples
-        return [True for e in labels]
-
 
 class TrainTransform:
     def __init__(self, aug_mode):
         # 1 is default mode, no transform
         self.aug_mode = aug_mode
-        if self.aug_mode < 2:
-            self.transform = None
+        if self.aug_mode == 1:
+            t = [JitterPoints(sigma=0.001, clip=0.002), RemoveRandomPoints(r=(0.0, 0.1)),
+                 RandomTranslation(max_delta=0.01), RemoveRandomBlock(p=0.4)]
         else:
-            if self.aug_mode == 1:
-                t = [JitterPoints(sigma=0.001, clip=0.002), RemoveRandomPoints(r=(0.0, 0.1)),
-                     RandomTranslation(max_delta=0.01), RemoveRandomBlock(p=0.4)]
-            else:
-                raise NotImplementedError('Unknown aug_mode: {}'.format(self.aug_mode))
-            self.transform = transforms.Compose(t)
+            raise NotImplementedError('Unknown aug_mode: {}'.format(self.aug_mode))
+        self.transform = transforms.Compose(t)
 
     def __call__(self, e):
         if self.transform is not None:
@@ -365,21 +334,3 @@ if __name__ == '__main__':
     dataset_path = '/media/sf_Datasets/PointNetVLAD'
     query_filename = 'test_queries_baseline.pickle'
 
-"""
-    aug_mode = 15
-    transform = TrainTransform(aug_mode=aug_mode)
-    set_transform = TrainSetTransform(aug_mode=aug_mode)
-
-    ds = OxfordDataset(dataset_path, query_filename, transform=transform, set_transform=set_transform)
-    for i in range(20):
-        ndx = random.randrange(len(ds))
-        set, set_ndx = ds.get_random_set(ndx, num_pos=2, num_neg=2)
-        e = set[0]
-
-        e = e[:, [1, 2, 0]]     # Swap axes for o3d visualization
-        # Pass xyz to Open3D.o3d.geometry.PointCloud
-        pcd = o3d.geometry.PointCloud()
-        pcd.points = o3d.utility.Vector3dVector(e)
-
-        o3d.visualization.draw_geometries([pcd])
-"""
