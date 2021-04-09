@@ -118,7 +118,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 
 ## Results
 
-**MinkLoc3D** performance (measured by Average Precision@1\%) compared to state-of-the-art:
+**MinkLoc3D** performance (measured by Average Recall@1\%) compared to state-of-the-art:
 
 ### Trained on Baseline Dataset
 

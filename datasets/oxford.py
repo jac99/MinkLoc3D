@@ -334,3 +334,7 @@ if __name__ == '__main__':
     dataset_path = '/media/sf_Datasets/PointNetVLAD'
     query_filename = 'test_queries_baseline.pickle'
 
+    my_dataset = OxfordDataset()
+
+    e = my_dataset[10]
+
