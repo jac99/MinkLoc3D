@@ -130,7 +130,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | LPD-Net [4] |     94.9   |   96.0 | 90.5 | **89.1** |
 | EPC-Net [5] |     94.7   |   **96.5** | 88.6 | 84.9 |
 | SOE-Net [6] |     96.4   |   93.2 | **91.5** | 88.5 |
-| NDT-Transfomer [7] | 97.7 | | | |
+| NDT-Transformer [7] | 97.7 | | | |
 | **MinkLoc3D (our)**  |     **97.9**     |   95.0 | 91.2 | 88.5 |
 
 
