@@ -151,7 +151,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 4. Z. Liu et al., "LPD-Net: 3D Point Cloud Learning for Large-Scale Place Recognition and Environment Analysis", 2019 IEEE/CVF International Conference on Computer Vision (ICCV)
 5. L. Hui et al., "Efficient 3D Point Cloud Feature Learning for Large-Scale Place Recognition", preprint arXiv:2101.02374 (2021)
 6. Y. Xia et al., "SOE-Net: A Self-Attention and Orientation Encoding Network for Point Cloud based Place Recognition", preprint arXiv:2011.12430 (2020)
-7. Z. Zhou et al., "NDT-Transformer: large-scale 3D point cloud localisation using the normal distribution transform representation", 
+7. Z. Zhou et al., "NDT-Transformer: Large-scale 3D Point Cloud Localisation Using the Normal Distribution Transform Representation", 
    2021 IEEE International Conference on Robotics and Automation (ICRA)
 * J. Komorowski, "MinkLoc3D: Point Cloud Based Large-Scale Place Recognition", Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), (2021)
 
