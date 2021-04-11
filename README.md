@@ -130,6 +130,7 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 | LPD-Net [4] |     94.9   |   96.0 | 90.5 | **89.1** |
 | EPC-Net [5] |     94.7   |   **96.5** | 88.6 | 84.9 |
 | SOE-Net [6] |     96.4   |   93.2 | **91.5** | 88.5 |
+| NDT-Transfomer [7] | 97.7 | | | |
 | **MinkLoc3D (our)**  |     **97.9**     |   95.0 | 91.2 | 88.5 |
 
 
@@ -137,19 +138,21 @@ python evaluate.py --config ../config/config_refined.txt --model_config ../model
 
 | Method         | Oxford  | U.S. | R.A. | B.D |
 | ------------------ |---------------- | -------------- |---|---|
-| PointNetVLAD [1] |     80.1     |   94.5 | 93.1 | 86.5 |
+| PointNetVLAD [1] |     80.1 |   94.5 | 93.1 | 86.5 |
 | PCAN [2] |     86.4     |   94.1 | 92.3 | 87.0 |
 | DAGC [3] |     87.8     |   94.3 | 93.4 | 88.5 |
 | LPD-Net [4] |     94.9     |   98.9 | 96.4 | 94.4 |
 | SOE-Net [6] |     96.4   |   **97.7** | 95.9 | 92.6 |
 | **MinkLoc3D (our)**  |     **98.5**     |   **99.7** | **99.3** | **96.7** |
 
-1. M. A. Uy and G. H. Lee, "PointNetVLAD: Deep Point Cloud Based Retrieval for Large-Scale Place Recognition," 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
-2. W. Zhang and C. Xiao, "PCAN: 3D Attention Map Learning Using Contextual Information for Point Cloud Based Retrieval," 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+1. M. A. Uy and G. H. Lee, "PointNetVLAD: Deep Point Cloud Based Retrieval for Large-Scale Place Recognition", 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+2. W. Zhang and C. Xiao, "PCAN: 3D Attention Map Learning Using Contextual Information for Point Cloud Based Retrieval", 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
 3. Q. Sun et al., "DAGC: Employing Dual Attention and Graph Convolution for Point Cloud based Place Recognition", Proceedings of the 2020 International Conference on Multimedia Retrieval
-4. Z. Liu et al., "LPD-Net: 3D Point Cloud Learning for Large-Scale Place Recognition and Environment Analysis," 2019 IEEE/CVF International Conference on Computer Vision (ICCV)
-5. L. Hui et al., "Efficient 3D Point Cloud Feature Learning for Large-Scale Place Recognition." arXiv preprint arXiv:2101.02374 (2021)
-6. Y. Xia et al., "SOE-Net: A Self-Attention and Orientation Encoding Network for Point Cloud based Place Recognition." arXiv preprint arXiv:2011.12430 (2020)
+4. Z. Liu et al., "LPD-Net: 3D Point Cloud Learning for Large-Scale Place Recognition and Environment Analysis", 2019 IEEE/CVF International Conference on Computer Vision (ICCV)
+5. L. Hui et al., "Efficient 3D Point Cloud Feature Learning for Large-Scale Place Recognition", preprint arXiv:2101.02374 (2021)
+6. Y. Xia et al., "SOE-Net: A Self-Attention and Orientation Encoding Network for Point Cloud based Place Recognition", preprint arXiv:2011.12430 (2020)
+7. Z. Zhou et al., "NDT-Transformer: large-scale 3D point cloud localisation using the normal distribution transform representation", 
+   2021 IEEE International Conference on Robotics and Automation (ICRA)
 * J. Komorowski, "MinkLoc3D: Point Cloud Based Large-Scale Place Recognition", Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), (2021)
 
 ### License
