@@ -1,5 +1,7 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
 
+NEW: Multimodal version of our descriptor is available here [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
+
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) WACV 2021
 
 [Supplementary material](media/MinkLoc3D_Supplementary_Material.pdf)
