@@ -22,14 +22,15 @@ The proposed method has a simple and efficient architecture. Evaluation on stand
 ### Citation
 If you find this work useful, please consider citing:
 
-    @InProceedings{Komorowski_2021_WACV,
-        author    = {Komorowski, Jacek},
-        title     = {MinkLoc3D: Point Cloud Based Large-Scale Place Recognition},
-        booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
-        month     = {January},
-        year      = {2021},
-        pages     = {1790-1799}
-    }
+      @INPROCEEDINGS{9423215,
+        author={Komorowski, Jacek},
+        booktitle={2021 IEEE Winter Conference on Applications of Computer Vision (WACV)}, 
+        title={MinkLoc3D: Point Cloud Based Large-Scale Place Recognition}, 
+        year={2021},
+        volume={},
+        number={},
+        pages={1789-1798},
+        doi={10.1109/WACV48630.2021.00183}}
 
 ### Environment and Dependencies
 Code was tested using Python 3.8 with PyTorch 1.7 and MinkowskiEngine 0.4.3 on Ubuntu 18.04 with CUDA 10.2.
