@@ -37,7 +37,7 @@ class MinkLoc(torch.nn.Module):
 
     def forward(self, batch):
         # Coords must be on CPU, features can be on GPU - see MinkowskiEngine documentation
-        x = ME.SparseTensor(batch['features'], coords=batch['coords'])
+        x = ME.SparseTensor(batch['features'], coordinates=batch['coords'])
         x = self.backbone(x)
 
         # x is (num_points, n_features) tensor

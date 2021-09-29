@@ -19,9 +19,6 @@ from models.loss import make_loss
 from models.model_factory import model_factory
 
 
-VERBOSE = False
-
-
 def print_stats(stats, phase):
     if 'num_pairs' in stats:
         # For batch hard contrastive loss
@@ -139,8 +136,7 @@ def do_train(dataloaders, params: MinkLocParams, debug=False, visualize=False):
                 if debug and count_batches > 2:
                     break
 
-                # Move everything to the device except 'coords' which must stay on CPU
-                batch = {e: batch[e].to(device) if e != 'coords' else batch[e] for e in batch}
+                batch = {e: batch[e].to(device) for e in batch}
 
                 n_positives = torch.sum(positives_mask).item()
                 n_negatives = torch.sum(negatives_mask).item()

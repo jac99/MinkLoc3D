@@ -49,7 +49,7 @@ def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
             # Not a MinkowskiEngine based model
             batch = {'cloud': batch}
         else:
-            coords = [ME.utils.sparse_quantize(coords=e, quantization_size=mink_quantization_size)
+            coords = [ME.utils.sparse_quantize(coordinates=e, quantization_size=mink_quantization_size)
                       for e in batch]
             coords = ME.utils.batched_coordinates(coords)
             # Assign a dummy feature equal to 1 to each point

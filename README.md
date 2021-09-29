@@ -1,10 +1,10 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
 
 ### What's new ###
-* 2021-04-11 Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal).
-* 2021-09-26 Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc). 
-* 2021-09-29 Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
-code updated to work with Pytorch 1.9.1 and MinkowskiEngine 0.5.4. 
+* [2021-04-11] Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
+* [2021-09-26] Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc)
+* [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
+code updated to work with recent version of Pytorch and MinkowskiEngine. 
 
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) 
 2021 IEEE Winter Conference on Applications of Computer Vision (WACV)
