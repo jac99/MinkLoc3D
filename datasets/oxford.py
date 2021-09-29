@@ -42,23 +42,12 @@ class OxfordDataset(Dataset):
 
     def __getitem__(self, ndx):
         # Load point cloud and apply transform
-        filename = self.queries[ndx].rel_scan_filepath
-        result = {'ndx': ndx}
-        if self.use_cloud:
-            # Load point cloud and apply transform
-            file_pathname = os.path.join(self.dataset_path, self.queries[ndx].rel_scan_filepath)
-            query_pc = self.load_pc(file_pathname)
-            if self.transform is not None:
-                query_pc = self.transform(query_pc)
-            result['cloud'] = query_pc
+        file_pathname = os.path.join(self.dataset_path, self.queries[ndx].rel_scan_filepath)
+        query_pc = self.load_pc(file_pathname)
+        if self.transform is not None:
+            query_pc = self.transform(query_pc)
 
-        if self.image_path is not None:
-            img = image4lidar(filename, self.image_path, self.image_ext, self.lidar2image_ndx, k=None)
-            if self.image_transform is not None:
-                img = self.image_transform(img)
-            result['image'] = img
-
-        return result
+        return query_pc, ndx
 
     def get_positives(self, ndx):
         return self.queries[ndx].positives
