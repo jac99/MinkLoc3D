@@ -108,7 +108,7 @@ def get_latent_vectors(model, set, device, params):
     """
 
     if DEBUG:
-        embeddings =  np.random.rand(len(set), 256)
+        embeddings = np.random.rand(len(set), 256)
         return embeddings
 
     model.eval()
@@ -123,8 +123,8 @@ def get_latent_vectors(model, set, device, params):
             bcoords = ME.utils.batched_coordinates([coords])
             # Assign a dummy feature equal to 1 to each point
             # Coords must be on CPU, features can be on GPU - see MinkowskiEngine documentation
-            feats = torch.ones((bcoords.shape[0], 1), dtype=torch.float32).to(device)
-            batch = {'coords': bcoords, 'features': feats}
+            feats = torch.ones((bcoords.shape[0], 1), dtype=torch.float32)
+            batch = {'coords': bcoords.to(device), 'features': feats.to(device)}
 
             embedding = model(batch)
             # embedding is (1, 1024) tensor

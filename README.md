@@ -1,11 +1,5 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
 
-### What's new ###
-* [2021-04-11] Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
-* [2021-09-26] Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc)
-* [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
-code updated to work with recent version of Pytorch and MinkowskiEngine. 
-
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) 
 2021 IEEE Winter Conference on Applications of Computer Vision (WACV)
 
@@ -15,7 +9,11 @@ Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv
 
 Warsaw University of Technology
 
-![Overview](media/overview.jpg)
+### What's new ###
+* [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
+code updated to work with recent version of Pytorch and MinkowskiEngine. 
+* [2021-09-26] Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc)
+* [2021-04-11] Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
 
 ### Introduction
 The paper presents a learning-based method for computing a discriminative 3D point cloud descriptor for place recognition purposes. 
@@ -23,6 +21,8 @@ Existing methods, such as PointNetVLAD, are based on unordered point cloud repre
 The PointNet architecture is not well suited to capture local geometric structures. Thus, state-of-the-art methods enhance vanilla PointNet architecture by adding different mechanism to capture local contextual information, such as graph convolutional networks or using hand-crafted features. 
 We present an alternative approach, dubbed **MinkLoc3D**, to compute a discriminative 3D point cloud descriptor, based on a sparse voxelized point cloud representation and sparse 3D convolutions.
 The proposed method has a simple and efficient architecture. Evaluation on standard benchmarks proves that MinkLoc3D outperforms current state-of-the-art.  
+
+![Overview](media/overview.jpg)
 
 ### Citation
 If you find this work useful, please consider citing:
