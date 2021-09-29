@@ -98,7 +98,7 @@ def get_latent_vectors(model, set, device, params):
 
     model.eval()
     embeddings_l = []
-    for elem_ndx in tqdm.tqdm(set):
+    for elem_ndx in set:
         x = load_pc(set[elem_ndx]["query"], params)
 
         with torch.no_grad():
