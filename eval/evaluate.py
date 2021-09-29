@@ -55,15 +55,11 @@ def evaluate_dataset(model, device, params, database_sets, query_sets, silent=Tr
 
     model.eval()
 
-    for set in database_sets:
+    for set in tqdm.tqdm(database_sets, disable=silent):
         database_embeddings.append(get_latent_vectors(model, set, device, params))
-        if not silent:
-            print('.', end='')
 
-    for set in query_sets:
+    for set in tqdm.tqdm(query_sets, disable=silent):
         query_embeddings.append(get_latent_vectors(model, set, device, params))
-        if not silent:
-            print('.', end='')
 
     for i in range(len(query_sets)):
         for j in range(len(query_sets)):
