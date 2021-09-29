@@ -58,12 +58,12 @@ def evaluate_dataset(model, device, params, database_sets, query_sets, silent=Tr
     for set in database_sets:
         database_embeddings.append(get_latent_vectors(model, set, device, params))
         if not silent:
-            print('.', endl='')
+            print('.', end='')
 
     for set in query_sets:
         query_embeddings.append(get_latent_vectors(model, set, device, params))
         if not silent:
-            print('.', endl='')
+            print('.', end='')
 
     for i in range(len(query_sets)):
         for j in range(len(query_sets)):
