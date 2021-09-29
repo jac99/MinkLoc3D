@@ -1,121 +1,80 @@
-# Code taken from PointNetVLAD repo: https://github.com/mikacuy/pointnetvlad
+# PointNetVLAD datasets: based on Oxford RobotCar and Inhouse
+# Code adapted from PointNetVLAD repo: https://github.com/mikacuy/pointnetvlad
 
-import pandas as pd
-import numpy as np
 import os
 import pandas as pd
-from sklearn.neighbors import KDTree
-import pickle
-import random
+import argparse
+import tqdm
 
-#####For training and test data split#####
-x_width=150
-y_width=150
+# Import test set boundaries
+from generating_queries.generate_test_sets import P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, check_in_test_set
+from generating_queries.generate_training_tuples_baseline import construct_query_dict
 
-#For Oxford
-p1=[5735712.768124,620084.402381]
-p2=[5735611.299219,620540.270327]
-p3=[5735237.358209,620543.094379]
-p4=[5734749.303802,619932.693364]   
-
-#For University Sector
-p5=[363621.292362,142864.19756]
-p6=[364788.795462,143125.746609]
-p7=[363597.507711,144011.414174]
-
-#For Residential Area
-p8=[360895.486453,144999.915143]
-p9=[362357.024536,144894.825301]
-p10=[361368.907155,145209.663042]
-
-p=[p1,p2,p3,p4,p5,p6,p7,p8,p9,p10]
-
-def check_in_test_set(northing, easting, points, x_width, y_width):
-	in_test_set=False
-	#print(northing)
-	for point in points:
-		if(point[0]-x_width<northing and northing< point[0]+x_width and point[1]-y_width<easting and easting<point[1]+y_width):
-			in_test_set=True
-			break
-	return in_test_set
-##########################################
+# Test set boundaries
+P = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
 
 
-def construct_query_dict(df_centroids, filename):
-	tree = KDTree(df_centroids[['northing','easting']])
-	ind_nn = tree.query_radius(df_centroids[['northing','easting']],r=12.5)
-	ind_r = tree.query_radius(df_centroids[['northing','easting']], r=50)
-	queries={}
-	print(len(ind_nn))
-	for i in range(len(ind_nn)):
-		query=df_centroids.iloc[i]["file"]
-		positives=np.setdiff1d(ind_nn[i],[i]).tolist()
-		negatives=np.setdiff1d(df_centroids.index.values.tolist(),ind_r[i]).tolist()
-		random.shuffle(negatives)
-		queries[i]={"query":query,"positives":positives,"negatives":negatives}
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Generate Refined training dataset')
+    parser.add_argument('--dataset_root', type=str, required=True, help='Dataset root folder')
+    args = parser.parse_args()
+    print('Dataset root: {}'.format(args.dataset_root))
 
-	with open(filename, 'wb') as handle:
-	    pickle.dump(queries, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    assert os.path.exists(args.dataset_root), f"Cannot access dataset root folder: {args.dataset_root}"
+    base_path = args.dataset_root
 
-	print("Done ", filename)
+    runs_folder = "inhouse_datasets/"
+    filename = "pointcloud_centroids_10.csv"
+    pointcloud_fols = "/pointcloud_25m_10/"
 
+    all_folders = sorted(os.listdir(os.path.join(base_path, runs_folder)))
 
+    folders = []
+    index_list = range(5, 15)
+    for index in index_list:
+        folders.append(all_folders[index])
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-base_path = "../../benchmark_datasets/"
-runs_folder="inhouse_datasets/"
-filename = "pointcloud_centroids_10.csv"
-pointcloud_fols="/pointcloud_25m_10/"
+    print(folders)
 
-all_folders=sorted(os.listdir(os.path.join(BASE_DIR,base_path,runs_folder)))
+    ####Initialize pandas DataFrame
+    df_train = pd.DataFrame(columns=['file', 'northing', 'easting'])
 
-folders=[]
-index_list=range(5,15)
-for index in index_list:
-	folders.append(all_folders[index])
+    for folder in tqdm.tqdm(folders):
+        df_locations = pd.read_csv(os.path.join(base_path, runs_folder, folder, filename), sep=',')
+        df_locations['timestamp'] = runs_folder + folder + pointcloud_fols + df_locations['timestamp'].astype(str) + '.bin'
+        df_locations = df_locations.rename(columns={'timestamp': 'file'})
+        for index, row in df_locations.iterrows():
+            if check_in_test_set(row['northing'], row['easting'], P):
+                continue
+            else:
+                df_train = df_train.append(row, ignore_index=True)
 
-print(folders)
+    print(len(df_train['file']))
 
-####Initialize pandas DataFrame
-df_train= pd.DataFrame(columns=['file','northing','easting'])
+    ##Combine with Oxford data
+    runs_folder = "oxford/"
+    filename = "pointcloud_locations_20m_10overlap.csv"
+    pointcloud_fols = "/pointcloud_20m_10overlap/"
 
-for folder in folders:
-	df_locations= pd.read_csv(os.path.join(base_path, runs_folder, folder,filename),sep=',')
-	df_locations['timestamp']=runs_folder+folder+pointcloud_fols+df_locations['timestamp'].astype(str)+'.bin'
-	df_locations=df_locations.rename(columns={'timestamp':'file'})
-	for index, row in df_locations.iterrows():
-		if(check_in_test_set(row['northing'], row['easting'], p, x_width, y_width)):
-			continue
-		else:
-			df_train=df_train.append(row, ignore_index=True)
+    all_folders = sorted(os.listdir(os.path.join(base_path, runs_folder)))
 
-print(len(df_train['file']))
+    folders = []
+    index_list = range(len(all_folders) - 1)
+    for index in index_list:
+        folders.append(all_folders[index])
 
+    print(folders)
 
-##Combine with Oxford data
-runs_folder = "oxford/"
-filename = "pointcloud_locations_20m_10overlap.csv"
-pointcloud_fols="/pointcloud_20m_10overlap/"
+    for folder in folders:
+        df_locations = pd.read_csv(os.path.join(base_path, runs_folder, folder, filename), sep=',')
+        df_locations['timestamp'] = runs_folder + folder + pointcloud_fols + df_locations['timestamp'].astype(str) + '.bin'
+        df_locations = df_locations.rename(columns={'timestamp': 'file'})
+        for index, row in df_locations.iterrows():
+            if check_in_test_set(row['northing'], row['easting'], P):
+                continue
+            else:
+                df_train = df_train.append(row, ignore_index=True)
 
-all_folders=sorted(os.listdir(os.path.join(BASE_DIR,base_path,runs_folder)))
-
-folders=[]
-index_list=range(len(all_folders)-1)
-for index in index_list:
-	folders.append(all_folders[index])
-
-print(folders)
-
-for folder in folders:
-	df_locations= pd.read_csv(os.path.join(base_path,runs_folder,folder,filename),sep=',')
-	df_locations['timestamp']=runs_folder+folder+pointcloud_fols+df_locations['timestamp'].astype(str)+'.bin'
-	df_locations=df_locations.rename(columns={'timestamp':'file'})
-	for index, row in df_locations.iterrows():
-		if(check_in_test_set(row['northing'], row['easting'], p, x_width, y_width)):
-			continue
-		else:
-			df_train=df_train.append(row, ignore_index=True)
-
-print("Number of training submaps: "+str(len(df_train['file'])))
-construct_query_dict(df_train,"training_queries_refine.pickle")
-
+    print("Number of training submaps: " + str(len(df_train['file'])))
+    # ind_nn_r is a threshold for positive elements - 12.5 is in original PointNetVLAD code for refined dataset
+    construct_query_dict(df_train, base_path, "training_queries_refine.pickle", ind_nn_r=12.5)

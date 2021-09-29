@@ -42,8 +42,6 @@ The following Python packages are required:
 * pytorch_metric_learning (version 0.9.94 or above)
 * tensorboard
 * pandas
-* psutil
-* bitarray
 
 
 Modify the `PYTHONPATH` environment variable to include absolute path to the project root folder: 

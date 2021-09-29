@@ -58,10 +58,9 @@ def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
             batch = {'coords': coords, 'features': feats}
 
         # Compute positives and negatives mask
-        # dataset.queries[label]['positives'] is bitarray
-        positives_mask = [[dataset.queries[label]['positives'][e] for e in labels] for label in labels]
-        negatives_mask = [[dataset.queries[label]['negatives'][e] for e in labels] for label in labels]
-
+        # Compute positives and negatives mask
+        positives_mask = [[in_sorted_array(e, dataset.queries[label].positives) for e in labels] for label in labels]
+        negatives_mask = [[not in_sorted_array(e, dataset.queries[label].non_negatives) for e in labels] for label in labels]
         positives_mask = torch.tensor(positives_mask)
         negatives_mask = torch.tensor(negatives_mask)
 
@@ -99,3 +98,11 @@ def make_dataloaders(params: MinkLocParams, debug=False):
                                        num_workers=params.num_workers, pin_memory=True)
 
     return dataloders
+
+
+def in_sorted_array(e: int, array: np.ndarray) -> bool:
+    pos = np.searchsorted(array, e)
+    if pos == len(array) or pos == -1:
+        return False
+    else:
+        return array[pos] == e
