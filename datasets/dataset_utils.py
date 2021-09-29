@@ -1,6 +1,7 @@
 # Author: Jacek Komorowski
 # Warsaw University of Technology
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 import MinkowskiEngine as ME
@@ -15,23 +16,13 @@ def make_datasets(params: MinkLocParams, debug=False):
     datasets = {}
     train_transform = TrainTransform(params.aug_mode)
     train_set_transform = TrainSetTransform(params.aug_mode)
-    if debug:
-        max_elems = 1000
-    else:
-        max_elems = None
 
     datasets['train'] = OxfordDataset(params.dataset_folder, params.train_file, train_transform,
-                                      set_transform=train_set_transform, max_elems=max_elems)
+                                      set_transform=train_set_transform)
     val_transform = None
     if params.val_file is not None:
         datasets['val'] = OxfordDataset(params.dataset_folder, params.val_file, val_transform)
     return datasets
-
-
-def make_eval_dataset(params: MinkLocParams):
-    # Create evaluation datasets
-    dataset = OxfordDataset(params.dataset_folder, params.test_file, transform=None)
-    return dataset
 
 
 def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
