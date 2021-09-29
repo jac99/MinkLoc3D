@@ -1,6 +1,10 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
 
-**NEW: Multimodal version of our descriptor (accepted for IJCNN 2021 conference) is released: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)**
+### What's new ###
+* [2021-04-11] Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
+* [2021-09-26] Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc)
+* [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
+code updated to work with recent version of Pytorch and MinkowskiEngine. 
 
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) 
 2021 IEEE Winter Conference on Applications of Computer Vision (WACV)
@@ -37,13 +41,11 @@ If you find this work useful, please consider citing:
 Code was tested using Python 3.8 with PyTorch 1.7 and MinkowskiEngine 0.4.3 on Ubuntu 18.04 with CUDA 10.2.
 
 The following Python packages are required:
-* PyTorch (version 1.7)
-* MinkowskiEngine (version 0.4.3)
-* pytorch_metric_learning (version 0.9.94 or above)
+* PyTorch (version 1.9.1)
+* MinkowskiEngine (version 0.5.4)
+* pytorch_metric_learning (version 0.9.99 or above)
 * tensorboard
 * pandas
-* psutil
-* bitarray
 
 
 Modify the `PYTHONPATH` environment variable to include absolute path to the project root folder: 
@@ -64,22 +66,26 @@ For dataset description see PointNetVLAD paper or github repository ([link](http
 You can download training and evaluation datasets from 
 [here](https://drive.google.com/open?id=1rflmyfZ1v9cGGH0RL4qXRrKhg-8A-U9q) 
 ([alternative link](https://drive.google.com/file/d/1-1HA9Etw2PpZ8zHd3cjrfiZa8xzbp41J/view?usp=sharing)). 
-Extract the folder in the same directory as the project code. Thus, in that directory you must have two folders: 1) benchmark_datasets and 2) MinkLoc3D
 
 Before the network training or evaluation, run the below code to generate pickles with positive and negative point clouds for each anchor point cloud. 
- 
+NOTE: Training and evaluation pickles format has changed in this release of MinkLoc3D code. If you have created these files using
+the previous version of this code, they must be removed and re-created.
+
 ```generate pickles
 cd generating_queries/ 
 
 # Generate training tuples for the Baseline Dataset
-python generate_training_tuples_baseline.py
+python generate_training_tuples_baseline.py --dataset_root <dataset_root_path>
 
 # Generate training tuples for the Refined Dataset
-python generate_training_tuples_refine.py
+python generate_training_tuples_refine.py --dataset_root <dataset_root_path>
 
 # Generate evaluation tuples
-python generate_test_sets.py
+python generate_test_sets.py --dataset_root <dataset_root_path>
 ```
+`<dataset_root_path>` is a path to dataset root folder, e.g. `/data/pointnetvlad/benchmark_datasets/`.
+Before running the code, ensure you have read/write rights to `<dataset_root_path>`, as training and evaluation pickles
+are saved there. 
 
 ### Training
 To train **MinkLoc3D** network, download and decompress the dataset and generate training pickles as described above.

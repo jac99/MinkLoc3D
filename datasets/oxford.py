@@ -13,105 +13,47 @@ import random
 import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
-import psutil
-from bitarray import bitarray
 import tqdm
-
-DEBUG = False
 
 
 class OxfordDataset(Dataset):
     """
     Dataset wrapper for Oxford laser scans dataset from PointNetVLAD project.
     """
-    def __init__(self, dataset_path, query_filename, transform=None, set_transform=None, max_elems=None):
-        # transform: transform applied to each element
-        # set transform: transform applied to the entire set (anchor+positives+negatives); the same transform is applied
-        if DEBUG:
-            print('Initializing dataset: {}'.format(dataset_path))
-            print(psutil.virtual_memory())
+    def __init__(self, dataset_path: str, query_filename: str, image_path: str = None,
+                 lidar2image_ndx=None, transform=None, set_transform=None, image_transform=None, use_cloud=True):
         assert os.path.exists(dataset_path), 'Cannot access dataset path: {}'.format(dataset_path)
         self.dataset_path = dataset_path
         self.query_filepath = os.path.join(dataset_path, query_filename)
         assert os.path.exists(self.query_filepath), 'Cannot access query file: {}'.format(self.query_filepath)
         self.transform = transform
         self.set_transform = set_transform
-        self.max_elems = max_elems
+        self.queries: Dict[int, TrainingTuple] = pickle.load(open(self.query_filepath, 'rb'))
+        self.image_path = image_path
+        self.lidar2image_ndx = lidar2image_ndx
+        self.image_transform = image_transform
         self.n_points = 4096    # pointclouds in the dataset are downsampled to 4096 points
-
-        cached_query_filepath = os.path.splitext(self.query_filepath)[0] + '_cached.pickle'
-        if not os.path.exists(cached_query_filepath):
-            # Pre-process query file
-            self.queries = self.preprocess_queries(self.query_filepath, cached_query_filepath)
-        else:
-            print('Loading preprocessed query file: {}...'.format(cached_query_filepath))
-            with open(cached_query_filepath, 'rb') as handle:
-                # key:{'query':file,'positives':[files],'negatives:[files], 'neighbors':[keys]}
-                self.queries = pickle.load(handle)
-
-        if max_elems is not None:
-            filtered_queries = {}
-            for ndx in self.queries:
-                if ndx >= self.max_elems:
-                    break
-                filtered_queries[ndx] = {'query': self.queries[ndx]['query'],
-                                         'positives': self.queries[ndx]['positives'][0:max_elems],
-                                         'negatives': self.queries[ndx]['negatives'][0:max_elems]}
-            self.queries = filtered_queries
-
+        self.image_ext = '.png'
+        self.use_cloud = use_cloud
         print('{} queries in the dataset'.format(len(self)))
-
-    def preprocess_queries(self, query_filepath, cached_query_filepath):
-        print('Loading query file: {}...'.format(query_filepath))
-        with open(query_filepath, 'rb') as handle:
-            # key:{'query':file,'positives':[files],'negatives:[files], 'neighbors':[keys]}
-            queries = pickle.load(handle)
-
-        # Convert to bitarray
-        for ndx in tqdm.tqdm(queries):
-            queries[ndx]['positives'] = set(queries[ndx]['positives'])
-            queries[ndx]['negatives'] = set(queries[ndx]['negatives'])
-            pos_mask = [e_ndx in queries[ndx]['positives'] for e_ndx in range(len(queries))]
-            neg_mask = [e_ndx in queries[ndx]['negatives'] for e_ndx in range(len(queries))]
-            queries[ndx]['positives'] = bitarray(pos_mask)
-            queries[ndx]['negatives'] = bitarray(neg_mask)
-
-        with open(cached_query_filepath, 'wb') as handle:
-            pickle.dump(queries, handle)
-
-        return queries
 
     def __len__(self):
         return len(self.queries)
 
     def __getitem__(self, ndx):
         # Load point cloud and apply transform
-        filename = self.queries[ndx]['query']
-        query_pc = self.load_pc(filename)
+        file_pathname = os.path.join(self.dataset_path, self.queries[ndx].rel_scan_filepath)
+        query_pc = self.load_pc(file_pathname)
         if self.transform is not None:
             query_pc = self.transform(query_pc)
+
         return query_pc, ndx
 
-    def get_item_by_filename(self, filename):
-        # Load point cloud and apply transform
-        query_pc = self.load_pc(filename)
-        if self.transform is not None:
-            query_pc = self.transform(query_pc)
-        return query_pc
+    def get_positives(self, ndx):
+        return self.queries[ndx].positives
 
-    def get_items(self, ndx_l):
-        # Load multiple point clouds and stack into (batch_size, n_points, 3) tensor
-        clouds = [self[ndx][0] for ndx in ndx_l]
-        clouds = torch.stack(clouds, dim=0)
-        return clouds
-
-    def get_positives_ndx(self, ndx):
-        # Get list of indexes of similar clouds
-        return self.queries[ndx]['positives'].search(bitarray([True]))
-
-    def get_negatives_ndx(self, ndx):
-        # Get list of indexes of dissimilar clouds
-        return self.queries[ndx]['negatives'].search(bitarray([True]))
+    def get_non_negatives(self, ndx):
+        return self.queries[ndx].non_negatives
 
     def load_pc(self, filename):
         # Load point cloud, does not apply any transform
@@ -119,10 +61,30 @@ class OxfordDataset(Dataset):
         file_path = os.path.join(self.dataset_path, filename)
         pc = np.fromfile(file_path, dtype=np.float64)
         # coords are within -1..1 range in each dimension
-        assert pc.shape[0] == self.n_points * 3, "Error in point cloud shape: {}".format(file_name)
+        assert pc.shape[0] == self.n_points * 3, "Error in point cloud shape: {}".format(file_path)
         pc = np.reshape(pc, (pc.shape[0] // 3, 3))
         pc = torch.tensor(pc, dtype=torch.float)
         return pc
+
+
+class TrainingTuple:
+    # Tuple describing an element for training/validation
+    def __init__(self, id: int, timestamp: int, rel_scan_filepath: str, positives: np.ndarray,
+                 non_negatives: np.ndarray, position: np.ndarray):
+        # id: element id (ids start from 0 and are consecutive numbers)
+        # ts: timestamp
+        # rel_scan_filepath: relative path to the scan
+        # positives: sorted ndarray of positive elements id
+        # negatives: sorted ndarray of elements id
+        # position: x, y position in meters (northing, easting)
+        assert position.shape == (2,)
+
+        self.id = id
+        self.timestamp = timestamp
+        self.rel_scan_filepath = rel_scan_filepath
+        self.positives = positives
+        self.non_negatives = non_negatives
+        self.position = position
 
 
 class TrainTransform:
@@ -329,12 +291,4 @@ class RemoveRandomBlock:
             coords[mask] = torch.zeros_like(coords[mask])
         return coords
 
-
-if __name__ == '__main__':
-    dataset_path = '/media/sf_Datasets/PointNetVLAD'
-    query_filename = 'test_queries_baseline.pickle'
-
-    my_dataset = OxfordDataset()
-
-    e = my_dataset[10]
 

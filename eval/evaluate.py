@@ -118,7 +118,7 @@ def get_latent_vectors(model, set, device, params):
 
         with torch.no_grad():
             # coords are (n_clouds, num_points, channels) tensor
-            coords = ME.utils.sparse_quantize(coords=x,
+            coords = ME.utils.sparse_quantize(coordinates=x,
                                               quantization_size=params.model_params.mink_quantization_size)
             bcoords = ME.utils.batched_coordinates([coords])
             # Assign a dummy feature equal to 1 to each point

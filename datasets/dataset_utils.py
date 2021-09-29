@@ -1,6 +1,7 @@
 # Author: Jacek Komorowski
 # Warsaw University of Technology
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 import MinkowskiEngine as ME
@@ -15,23 +16,13 @@ def make_datasets(params: MinkLocParams, debug=False):
     datasets = {}
     train_transform = TrainTransform(params.aug_mode)
     train_set_transform = TrainSetTransform(params.aug_mode)
-    if debug:
-        max_elems = 1000
-    else:
-        max_elems = None
 
     datasets['train'] = OxfordDataset(params.dataset_folder, params.train_file, train_transform,
-                                      set_transform=train_set_transform, max_elems=max_elems)
+                                      set_transform=train_set_transform)
     val_transform = None
     if params.val_file is not None:
         datasets['val'] = OxfordDataset(params.dataset_folder, params.val_file, val_transform)
     return datasets
-
-
-def make_eval_dataset(params: MinkLocParams):
-    # Create evaluation datasets
-    dataset = OxfordDataset(params.dataset_folder, params.test_file, transform=None)
-    return dataset
 
 
 def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
@@ -49,7 +40,7 @@ def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
             # Not a MinkowskiEngine based model
             batch = {'cloud': batch}
         else:
-            coords = [ME.utils.sparse_quantize(coords=e, quantization_size=mink_quantization_size)
+            coords = [ME.utils.sparse_quantize(coordinates=e, quantization_size=mink_quantization_size)
                       for e in batch]
             coords = ME.utils.batched_coordinates(coords)
             # Assign a dummy feature equal to 1 to each point
@@ -58,10 +49,9 @@ def make_collate_fn(dataset: OxfordDataset, mink_quantization_size=None):
             batch = {'coords': coords, 'features': feats}
 
         # Compute positives and negatives mask
-        # dataset.queries[label]['positives'] is bitarray
-        positives_mask = [[dataset.queries[label]['positives'][e] for e in labels] for label in labels]
-        negatives_mask = [[dataset.queries[label]['negatives'][e] for e in labels] for label in labels]
-
+        # Compute positives and negatives mask
+        positives_mask = [[in_sorted_array(e, dataset.queries[label].positives) for e in labels] for label in labels]
+        negatives_mask = [[not in_sorted_array(e, dataset.queries[label].non_negatives) for e in labels] for label in labels]
         positives_mask = torch.tensor(positives_mask)
         negatives_mask = torch.tensor(negatives_mask)
 
@@ -99,3 +89,11 @@ def make_dataloaders(params: MinkLocParams, debug=False):
                                        num_workers=params.num_workers, pin_memory=True)
 
     return dataloders
+
+
+def in_sorted_array(e: int, array: np.ndarray) -> bool:
+    pos = np.searchsorted(array, e)
+    if pos == len(array) or pos == -1:
+        return False
+    else:
+        return array[pos] == e

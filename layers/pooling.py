@@ -35,6 +35,6 @@ class GeM(nn.Module):
 
     def forward(self, x: ME.SparseTensor):
         # This implicitly applies ReLU on x (clamps negative values)
-        temp = ME.SparseTensor(x.F.clamp(min=self.eps).pow(self.p), coords=x.C)
+        temp = ME.SparseTensor(x.F.clamp(min=self.eps).pow(self.p), coordinates=x.C)
         temp = self.f(temp)             # Apply ME.MinkowskiGlobalAvgPooling
         return temp.F.pow(1./self.p)    # Return (batch_size, n_features) tensor
