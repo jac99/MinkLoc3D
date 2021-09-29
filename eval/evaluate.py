@@ -101,12 +101,6 @@ def load_pc(file_name, params):
 def get_latent_vectors(model, set, device, params):
     # Adapted from original PointNetVLAD code
 
-    """
-    if DEBUG:
-        embeddings = torch.randn(len(set), 256)
-        return embeddings
-    """
-
     if DEBUG:
         embeddings = np.random.rand(len(set), 256)
         return embeddings
