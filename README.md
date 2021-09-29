@@ -38,7 +38,8 @@ If you find this work useful, please consider citing:
       doi={10.1109/WACV48630.2021.00183}}
 
 ### Environment and Dependencies
-Code was tested using Python 3.8 with PyTorch 1.7 and MinkowskiEngine 0.4.3 on Ubuntu 18.04 with CUDA 10.2.
+Code was tested using Python 3.8 with PyTorch 1.9.1 and MinkowskiEngine 0.5.4 on Ubuntu 20.04 with CUDA 10.2.
+Note: CUDA 11.1 is not recommended as there are some issues with MinkowskiEngine 0.5.4 on CUDA 11.1. 
 
 The following Python packages are required:
 * PyTorch (version 1.9.1)
@@ -69,7 +70,7 @@ You can download training and evaluation datasets from
 
 Before the network training or evaluation, run the below code to generate pickles with positive and negative point clouds for each anchor point cloud. 
 NOTE: Training and evaluation pickles format has changed in this release of MinkLoc3D code. If you have created these files using
-the previous version of this code, they must be removed and re-created.
+the previous version of the code, they must be removed and re-created.
 
 ```generate pickles
 cd generating_queries/ 
