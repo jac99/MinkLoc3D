@@ -22,8 +22,7 @@ def evaluate(model, device, params, silent=True):
     assert len(params.eval_database_files) == len(params.eval_query_files)
 
     stats = {}
-    for database_file, query_file in tqdm.tqdm(zip(params.eval_database_files, params.eval_query_files),
-                                               disable=silent):
+    for database_file, query_file in zip(params.eval_database_files, params.eval_query_files):
         # Extract location name from query and database files
         location_name = database_file.split('_')[0]
         temp = query_file.split('_')[0]
@@ -38,13 +37,13 @@ def evaluate(model, device, params, silent=True):
         with open(p, 'rb') as f:
             query_sets = pickle.load(f)
 
-        temp = evaluate_dataset(model, device, params, database_sets, query_sets)
+        temp = evaluate_dataset(model, device, params, database_sets, query_sets, silent=silent)
         stats[location_name] = temp
 
     return stats
 
 
-def evaluate_dataset(model, device, params, database_sets, query_sets):
+def evaluate_dataset(model, device, params, database_sets, query_sets, silent=True):
     # Run evaluation on a single dataset
     recall = np.zeros(25)
     count = 0
@@ -58,9 +57,13 @@ def evaluate_dataset(model, device, params, database_sets, query_sets):
 
     for set in database_sets:
         database_embeddings.append(get_latent_vectors(model, set, device, params))
+        if not silent:
+            print('.', endl='')
 
     for set in query_sets:
         query_embeddings.append(get_latent_vectors(model, set, device, params))
+        if not silent:
+            print('.', endl='')
 
     for i in range(len(query_sets)):
         for j in range(len(query_sets)):
