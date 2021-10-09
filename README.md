@@ -15,7 +15,7 @@ code updated to work with recent version of Pytorch and MinkowskiEngine.
 
 ### Our other projects ###
 * MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition (IJCNN 2021): [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
-* RadarLoc: Large-Scale Topological Radar Localization Using Learned Descriptors (ICONIP 2021): [RadarLoc](https://github.com/jac99/RadarLoc)
+* Large-Scale Topological Radar Localization Using Learned Descriptors (ICONIP 2021): [RadarLoc](https://github.com/jac99/RadarLoc)
 
 ### Introduction
 The paper presents a learning-based method for computing a discriminative 3D point cloud descriptor for place recognition purposes. 
