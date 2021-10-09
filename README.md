@@ -12,8 +12,10 @@ Warsaw University of Technology
 ### What's new ###
 * [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
 code updated to work with recent version of Pytorch and MinkowskiEngine. 
-* [2021-09-26] Paper "Large-Scale Topological Radar Localization Using Learned Descriptors" accepted for ICONIP 2021 conference. Project website: [RadarLoc](https://github.com/jac99/RadarLoc)
-* [2021-04-11] Multimodal version of our descriptor "MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition" accepted for IJCNN 2021 conference. Project website: [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
+
+### Our other projects ###
+* MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition (IJCNN 2021): [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
+* RadarLoc: Large-Scale Topological Radar Localization Using Learned Descriptors (ICONIP 2021): [RadarLoc](https://github.com/jac99/RadarLoc)
 
 ### Introduction
 The paper presents a learning-based method for computing a discriminative 3D point cloud descriptor for place recognition purposes. 

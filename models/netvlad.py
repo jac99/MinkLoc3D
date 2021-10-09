@@ -1,4 +1,4 @@
-# PointNet code taken from PointNetVLAD Pytorch implementation: https://github.com/cattaneod/PointNetVlad-Pytorch
+# Code taken from PointNetVLAD Pytorch implementation: https://github.com/cattaneod/PointNetVlad-Pytorch
 # Adapted by Jacek Komorowski
 
 import torch
