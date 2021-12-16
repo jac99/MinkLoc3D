@@ -48,7 +48,7 @@ Note: CUDA 11.1 is not recommended as there are some issues with MinkowskiEngine
 The following Python packages are required:
 * PyTorch (version 1.9.1)
 * MinkowskiEngine (version 0.5.4)
-* pytorch_metric_learning (version 0.9.99 or above)
+* pytorch_metric_learning (version 1.0 or above)
 * tensorboard
 * pandas
 

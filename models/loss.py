@@ -3,7 +3,7 @@
 
 import numpy as np
 import torch
-from pytorch_metric_learning import losses, miners
+from pytorch_metric_learning import losses, miners, reducers
 from pytorch_metric_learning.distances import LpDistance
 
 
@@ -75,10 +75,12 @@ class BatchHardTripletLossWithMasks:
     def __init__(self, margin, normalize_embeddings):
         self.margin = margin
         self.normalize_embeddings = normalize_embeddings
-        self.distance = LpDistance(normalize_embeddings=normalize_embeddings)
+        self.distance = LpDistance(normalize_embeddings=normalize_embeddings, collect_stats=True)
         # We use triplet loss with Euclidean distance
         self.miner_fn = HardTripletMinerWithMasks(distance=self.distance)
-        self.loss_fn = losses.TripletMarginLoss(margin=self.margin, swap=True, distance=self.distance)
+        reducer_fn = reducers.AvgNonZeroReducer(collect_stats=True)
+        self.loss_fn = losses.TripletMarginLoss(margin=self.margin, swap=True, distance=self.distance,
+                                                reducer=reducer_fn, collect_stats=True)
 
     def __call__(self, embeddings, positives_mask, negatives_mask):
         hard_triplets = self.miner_fn(embeddings, positives_mask, negatives_mask)
@@ -102,11 +104,12 @@ class BatchHardContrastiveLossWithMasks:
     def __init__(self, pos_margin, neg_margin, normalize_embeddings):
         self.pos_margin = pos_margin
         self.neg_margin = neg_margin
-        self.distance = LpDistance(normalize_embeddings=normalize_embeddings)
+        self.distance = LpDistance(normalize_embeddings=normalize_embeddings, collect_stats=True)
         self.miner_fn = HardTripletMinerWithMasks(distance=self.distance)
         # We use contrastive loss with squared Euclidean distance
+        reducer_fn = reducers.AvgNonZeroReducer(collect_stats=True)
         self.loss_fn = losses.ContrastiveLoss(pos_margin=self.pos_margin, neg_margin=self.neg_margin,
-                                              distance=self.distance)
+                                              distance=self.distance, reducer=reducer_fn, collect_stats=True)
 
     def __call__(self, embeddings, positives_mask, negatives_mask):
         hard_triplets = self.miner_fn(embeddings, positives_mask, negatives_mask)
