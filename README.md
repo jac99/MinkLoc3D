@@ -1,7 +1,8 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
 
-Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](http://arxiv.org/abs/2011.04530) 
+Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](https://ieeexplore.ieee.org/document/9423215) 
 2021 IEEE Winter Conference on Applications of Computer Vision (WACV)
+[arXiv](http://arxiv.org/abs/2011.04530)
 
 [Supplementary material](media/MinkLoc3D_Supplementary_Material.pdf)
 
