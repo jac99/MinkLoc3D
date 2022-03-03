@@ -1,5 +1,5 @@
 # MinkLoc3D: Point Cloud Based Large-Scale Place Recognition
-
+## For improved version of MinkLoc3D method see: [MinkLoc3Dv2](https://github.com/jac99/MinkLoc3Dv2) 
 Paper: [MinkLoc3D: Point Cloud Based Large-Scale Place Recognition](https://ieeexplore.ieee.org/document/9423215) 
 2021 IEEE Winter Conference on Applications of Computer Vision (WACV)
 [arXiv](http://arxiv.org/abs/2011.04530)
@@ -13,11 +13,13 @@ Warsaw University of Technology
 ### What's new ###
 * [2021-09-29] Updated version of MinkLoc3D code is released. Changes include: optimization of training and evaluation pickles generation process; 
 code updated to work with recent version of Pytorch and MinkowskiEngine. 
+* [2022-03-03] Improved vresion of MinkLoc3D method is released: [MinkLoc3Dv2](https://github.com/jac99/MinkLoc3Dv2) 
 
 ### Our other projects ###
 * MinkLoc++: Lidar and Monocular Image Fusion for Place Recognition (IJCNN 2021): [MinkLoc++](https://github.com/jac99/MinkLocMultimodal)
 * Large-Scale Topological Radar Localization Using Learned Descriptors (ICONIP 2021): [RadarLoc](https://github.com/jac99/RadarLoc)
 * EgonNN: Egocentric Neural Network for Point Cloud Based 6DoF Relocalization at the City Scale (IEEE Robotics and Automation Letters April 2022): [EgoNN](https://github.com/jac99/Egonn) 
+* Improving Point Cloud Based Place Recognition with Ranking-based Loss and Large Batch Training (2022): [MinkLoc3Dv2](https://github.com/jac99/MinkLoc3Dv2) 
 
 ### Introduction
 The paper presents a learning-based method for computing a discriminative 3D point cloud descriptor for place recognition purposes. 
