@@ -1,7 +1,7 @@
 [DEFAULT]
 num_points = 4096
 
-dataset_folder = /media/sf_Datasets/pointnetvlad/benchmark_datasets
+dataset_folder = /data3/pointnetvlad/benchmark_datasets
 
 [TRAIN]
 num_workers = 4
