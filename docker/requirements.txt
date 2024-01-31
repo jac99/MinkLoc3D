@@ -1,0 +1,5 @@
+pytorch-metric-learning==2.4.1
+open3d==0.18.0
+tensorboard==2.15.1
+pandas==1.5.3
+
